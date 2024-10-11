@@ -9,5 +9,5 @@ This project is a Flask-based web application that integrates OpenAI's GPT API t
   3. Real-time user interaction and response handling.
   4. JSON API for handling chat responses.
 
-**Prerequisite**
+**Prerequisite:**
   Place your API key in the code (Or add a .env for low level security)
