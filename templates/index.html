@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with GPT</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+
+    <h1>Chat assistant</h1>
+
+    <div id="chat-box">
+        <!-- Chat will be displayed here -->
+    </div>
+
+    <form action="{{url_for('chat')}}" id="chat-form">
+        <input type="text" id="user-input" placeholder="Type a message" style="width:400px;">
+        <button type="submit">Send</button>
+    </form>
+
+    <h4>{{user_input}}</h4>
+
+    <script>
+        $(document).ready(function() {
+            $('#chat-form').on('submit', function(event) {
+                event.preventDefault();
+                let userInput = $('#user-input').val();
+                console.log("User input:", userInput);
+                
+                if (userInput) {
+                    // Append user message to chat
+                    $('#chat-box').append('<div class="message user"><strong>You:</strong> ' + userInput + '</div>');
+                    
+                    // Send data to server
+                    $.post('/chat', { user_input: userInput }, function(data) {
+                        console.log("Response from server:", data);
+                        // Append assistant's message to chat
+                        $('#chat-box').append('<div class="message assistant"><strong>Assistant:</strong> ' + data.assistant_reply + '</div>');
+                        // Scroll to the bottom
+                        $('#chat-box').scrollTop($('#chat-box')[0].scrollHeight);
+                    });
+
+                    // Clear input
+                    $('#user-input').val('');
+                }
+            });
+        });
+    </script>
+
+
+</body>
+</html>
